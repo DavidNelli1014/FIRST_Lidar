@@ -1,0 +1,30 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url "https://frcmaven.wpi.edu/artifactory/release/" }
+}
+
+dependencies {
+    compile group: 'com.github.ev3dev-lang-java', name:"RPLidar4J", version: '0.4.0'   
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    compile "edu.wpi.first.ntcore:ntcore-java:2021.2.2"
+    compile "edu.wpi.first.wpiutil:wpiutil-java:2021.2.2"
+    runtime "edu.wpi.first.ntcore:ntcore-jni:2021.2.2:windowsx86"
+    runtime "edu.wpi.first.ntcore:ntcore-jni:2021.2.2:windowsx86-64"
+    runtime "edu.wpi.first.ntcore:ntcore-jni:2021.2.2:linuxx86-64"
+    compile "edu.wpi.first.ntcore:ntcore-jni:2021.2.2:linuxraspbian"
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.nelli.App"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
